@@ -3,6 +3,10 @@ import streamlit as st
 import pickle as p 
 import pandas as pd
 import plotly.graph_objects as go
+#import sys
+#!{sys.executable} -m pip install plotly
+    
+
 
 
 def get_clean():
@@ -185,7 +189,7 @@ def add_predictions(input_data):
 
 def main():
     st.set_page_config(
-        page_title="BREAST CANCER PREDICTION",
+        page_title="BIOBEAT",
         page_icon="👩‍⚕️",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -202,9 +206,9 @@ def main():
     #st.write(input_data)
     
     with st.container():
-        st.title("Breast Cancer Predictor")
+        st.title("𝘽𝙄𝙊𝘽𝙀𝘼𝙏")
         st.write("Connect this application to your cytology lab to assist in diagnosing breast cancer from tissue samples. Using a machine learning model, the app predicts whether a breast mass is benign or malignant based on measurements received from the cytology lab. You can also manually adjust the measurements using the sliders in the sidebar.")
-    col1, col2 = st.columns([4,1])        
+    col1, col2, col3 = st.columns([4,1,1])        
     
     with col1:
         radar_chart=get_radar_chart(input_data)
@@ -213,7 +217,12 @@ def main():
         st.subheader("Cell cluster prediction") 
         st.write("The cell cluster is: ") 
         add_predictions(input_data)
+    with col3:
+        st.subheader("𝘽𝙄𝙊𝘽𝙀𝘼𝙏")
+        st.write('"Cancer is just one chapter of our journey, but its not the final word."')
+        st.write('BioBeat aims to become a trusted companion in the journey towards early detection and prevention of breast cancer. By combining technological innovation with user-centric design, it strives to make accurate cancer predictions accessible to everyone, ultimately contributing to better health outcomes and saving lives.') 
 
+         
 
 if __name__=='__main__':
     main()
