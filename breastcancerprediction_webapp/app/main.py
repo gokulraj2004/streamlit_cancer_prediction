@@ -5,13 +5,15 @@ import pandas as pd
 import plotly.graph_objects as go
 import os
 
-# Function to get the directory of the current script
 def get_script_dir():
     return os.path.dirname(os.path.abspath(__file__))
 
 def get_clean():
     script_dir = get_script_dir()
     data_path = os.path.join(script_dir, '..', 'data', 'breast_cancer_data.csv')
+    if not os.path.exists(data_path):
+        st.error(f"Data file not found: {data_path}")
+        return None
     data = pd.read_csv(data_path)
     data = data.drop(['Unnamed: 32', 'id'], axis=1)
     data['diagnosis'] = data['diagnosis'].map({'M': 1, 'B': 0})
@@ -20,6 +22,9 @@ def get_clean():
 def add_sidebar():
     st.sidebar.header("Cell Nuclei Measurements")
     data = get_clean()
+    if data is None:
+        return {}
+    
     slider_labels = [
         ("Radius (mean)", "radius_mean"),
         ("Texture (mean)", "texture_mean"),
@@ -66,6 +71,8 @@ def add_sidebar():
 
 def get_scaled_values(input_dict):
     data = get_clean()
+    if data is None:
+        return {}
     X = data.drop(['diagnosis'], axis=1)
     scaled_dict = {}
     for key, value in input_dict.items():
@@ -151,6 +158,10 @@ def add_predictions(input_data):
     model_path = os.path.join(script_dir, '..', 'model', 'model.pkl')
     scaler_path = os.path.join(script_dir, '..', 'model', 'scaler.pkl')
     
+    if not os.path.exists(model_path) or not os.path.exists(scaler_path):
+        st.error("Model or Scaler file not found.")
+        return
+    
     model = p.load(open(model_path, "rb"))
     scaler = p.load(open(scaler_path, "rb"))
     
@@ -183,6 +194,10 @@ def main():
     
     script_dir = get_script_dir()
     style_path = os.path.join(script_dir, '..', 'assets', 'style.css')
+    if not os.path.exists(style_path):
+        st.error(f"Style file not found: {style_path}")
+        return
+    
     with open(style_path) as f:
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
     
