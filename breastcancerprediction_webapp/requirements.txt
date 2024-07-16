@@ -1,6 +1,7 @@
 numpy == 1.26.4
 pandas == 2.2.2
 pickle5 == 0.0.12
-plotly == 5.22.0
-scikit_learn==1.2.0
 streamlit == 1.35.0
+scikit_learn == 1.2.0
+plotly == 5.22.0
+
